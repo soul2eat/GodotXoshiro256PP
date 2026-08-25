@@ -2,6 +2,7 @@
 * text=auto eol=lf
 
 * export-ignore
-!/addons/
-!/addons/my-plugin/
-!/addons/my-plugin/**
+
+/addons/ -export-ignore
+/addons/GodotXoshiro256PP/ -export-ignore
+/addons/GodotXoshiro256PP/** -export-ignore
