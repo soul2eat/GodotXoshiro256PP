@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Cache Godot
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/godot
           key: ${{ runner.os }}-godot-${{ env.GODOT_VERSION }}
@@ -53,4 +53,5 @@ jobs:
             --path . \
             -s res://addons/gut/gut_cmdln.gd \
             -gexit \
+            -glog 0 \
             -gdisable_colors
