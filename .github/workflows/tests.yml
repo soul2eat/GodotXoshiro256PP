@@ -1,0 +1,52 @@
+name: Godot tests
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  GODOT_VERSION: 4.6.2-stable
+  GODOT_CACHE_DIR: ~/.cache/godot
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Godot
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/godot
+          key: ${{ runner.os }}-godot-${{ env.GODOT_VERSION }}
+
+      - name: Download Godot
+        shell: bash
+        run: |
+          mkdir -p "$GODOT_CACHE_DIR"
+          GODOT_ARCHIVE="$GODOT_CACHE_DIR/Godot_v${GODOT_VERSION}_linux.x86_64.zip"
+          GODOT_BINARY="$GODOT_CACHE_DIR/Godot_v${GODOT_VERSION}_linux.x86_64"
+
+          if [ ! -f "$GODOT_BINARY" ]; then
+            if [ ! -f "$GODOT_ARCHIVE" ]; then
+              curl -L \
+                "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_linux.x86_64.zip" \
+                -o "$GODOT_ARCHIVE"
+            fi
+
+            unzip -o "$GODOT_ARCHIVE" -d "$GODOT_CACHE_DIR"
+            chmod +x "$GODOT_BINARY"
+          fi
+
+      - name: Run tests
+        shell: bash
+        run: |
+          "$GODOT_CACHE_DIR/Godot_v${GODOT_VERSION}_linux.x86_64" \
+            --headless \
+            --path . \
+            -s res://addons/gut/gut_cmdln.gd \
+            -gexit \
+            -gdisable_colors
