@@ -7,7 +7,7 @@ on:
 
 env:
   GODOT_VERSION: 4.6.2-stable
-  GODOT_CACHE_DIR: ~/.cache/godot
+  GODOT_CACHE_DIR: ${{ github.workspace }}/.cache/godot
 
 jobs:
   test:
@@ -20,7 +20,7 @@ jobs:
       - name: Cache Godot
         uses: actions/cache@v6
         with:
-          path: ~/.cache/godot
+          path: ${{ github.workspace }}/.cache/godot
           key: ${{ runner.os }}-godot-${{ env.GODOT_VERSION }}
 
       - name: Download Godot
