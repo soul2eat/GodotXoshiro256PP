@@ -41,8 +41,12 @@ jobs:
             chmod +x "$GODOT_BINARY"
           fi
 
+      - name: Import Godot project
+        run: |
+          "$GODOT_CACHE_DIR/Godot_v${GODOT_VERSION}_linux.x86_64" \
+            --headless --editor --path . --quit
+
       - name: Run tests
-        shell: bash
         run: |
           "$GODOT_CACHE_DIR/Godot_v${GODOT_VERSION}_linux.x86_64" \
             --headless \
